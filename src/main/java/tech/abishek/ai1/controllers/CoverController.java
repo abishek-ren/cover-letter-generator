@@ -3,6 +3,7 @@ package tech.abishek.ai1.controllers;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
+import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
 import org.springframework.ai.openai.OpenAiChatClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import tech.abishek.ai1.dtos.CoverLetterDTO;
 import tech.abishek.ai1.model.Resume;
 import tech.abishek.ai1.repository.ResumeRepository;
-import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -24,6 +23,7 @@ import java.io.InputStream;
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE;
 
 @RestController
+@RequestMapping("/cover-letters")
 public class CoverController {
 
     @Autowired
@@ -65,7 +65,7 @@ public class CoverController {
 
     }
 
-    @PostMapping(path = "/coverletter", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @PostMapping(path = "/generate", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public ResponseEntity<byte[]> getCoverLetter(@RequestParam String id, @RequestParam(name = "Job Description") String jobDescription) {
         String resume = resumeRepository.findById(Long.parseLong(id)).get().getText();
         String prompt = "Write a cover letter in one page just the content. The number of lines of space between paragraph should be 1. Start from the line Dear hiring manager.  In about 300 words. For this resume :\n " + resume;
