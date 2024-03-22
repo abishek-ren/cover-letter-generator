@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cover Letter Generator</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1>Cover Letter Generator</h1>
+
+<h2>Upload Resume</h2>
+<form action="/cover-letters/upload" th:action="@{/cover-letters/upload}" method="post" enctype="multipart/form-data">
+    <p>Select a PDF file: <input type="file" name="file" /></p>
+    <p><input type="submit" value="Upload" /> <input type="reset" value="Reset" /></p>
+</form>
+
+<h2>Generate Cover Letter</h2>
+<form action="/cover-letters/generate" th:action="@{/cover-letters/generate}" method="post">
+    <p>ID: <input type="text" name="id" /></p>
+    <p>Job Description: <input type="text" name="Job Description" /></p>
+    <p><input type="submit" value="Generate" /> <input type="reset" value="Reset" /></p>
+</form>
+
+</body>
+</html>

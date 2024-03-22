@@ -11,6 +11,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tech.abishek.ai1.model.Resume;
@@ -42,10 +44,10 @@ public class CoverController {
             path = "/upload",
             method = RequestMethod.POST,
             consumes = MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> uploadResume(
-            @RequestPart("file") MultipartFile file) {
+    public String uploadResume(
+            @RequestPart("file") MultipartFile file, Model model) {
         if (file.isEmpty()) {
-            return ResponseEntity.badRequest().body("Please upload a PDF file");
+            return String.valueOf(ResponseEntity.badRequest().body("Please upload a PDF file"));
         }
 
         try (InputStream inputStream = file.getInputStream();
@@ -55,11 +57,12 @@ public class CoverController {
             String text = pdfStripper.getText(document);
             Resume resume = new Resume();
             resume.setText(text);
-            return ResponseEntity.ok(resumeRepository.save(resume).getId().toString());
+            String id = "100";
+//            String id = resumeRepository.save(resume).getId().toString();
+            return "resume ID: " + id + " uploaded successfully.";
         } catch (IOException e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("An error occurred while reading the PDF file");
+            return String.valueOf(ResponseEntity.badRequest().body("Failed to upload the file"));
         }
 
 
