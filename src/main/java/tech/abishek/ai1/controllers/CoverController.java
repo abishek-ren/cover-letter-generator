@@ -57,8 +57,7 @@ public class CoverController {
             String text = pdfStripper.getText(document);
             Resume resume = new Resume();
             resume.setText(text);
-            String id = "100";
-//            String id = resumeRepository.save(resume).getId().toString();
+            String id = resumeRepository.save(resume).getId().toString();
             return "resume ID: " + id + " uploaded successfully.";
         } catch (IOException e) {
             e.printStackTrace();
