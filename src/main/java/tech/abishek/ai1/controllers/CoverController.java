@@ -68,10 +68,11 @@ public class CoverController {
     }
 
     @PostMapping(path = "/generate", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    public ResponseEntity<byte[]> getCoverLetter(@RequestParam String id, @RequestParam(name = "Job Description") String jobDescription) {
+    public ResponseEntity<byte[]> getCoverLetter(@RequestParam String id, @RequestParam(name = "Job Description") String jobDescription,
+                                                 @RequestParam(name = "prompt") String custPrompt) {
         String resume = resumeRepository.findById(Long.parseLong(id)).get().getText();
         String prompt = "Write a cover letter in one page just the content. The number of lines of space between paragraph should be 1. Start from the line Dear hiring manager.  In about 300 words. For this resume :\n " + resume;
-        prompt = prompt + "and the job description here: \n" + jobDescription;
+        prompt = prompt + "and the job description here: \n" + jobDescription + "and the custom settings: \n" + custPrompt;
 
         String coverLetterText = aiChatClient.call(prompt);
         // Create a new DOCX document

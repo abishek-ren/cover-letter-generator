@@ -16,7 +16,8 @@
 <h2>Generate Cover Letter</h2>
 <form action="/cover-letters/generate" th:action="@{/cover-letters/generate}" method="post">
     <p>ID: <input type="text" name="id" /></p>
-    <p>Job Description: <input type="text" name="Job Description" /></p>
+    <p>Custom Prompt: <textarea name="prompt" rows="3" cols="150"></textarea></p>
+    <p>Job Description: <textarea name="Job Description" rows="10" cols="150"></textarea></p>
     <p><input type="submit" value="Generate" /> <input type="reset" value="Reset" /></p>
 </form>
 
